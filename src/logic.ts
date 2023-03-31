@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import { market } from "./database";
-import { ICleaningProduct, IFoodProduct, TProductRequest } from "./interfaces";
+import { ICleaningProduct, IFoodProduct, IMarket } from "./interfaces";
 
 const createProduct = (request:Request, response:Response):Response =>{
     const productData:Array<ICleaningProduct | IFoodProduct> = request.body
 
-    const newArray = productData.map((data ) =>{
+    const newArray:Array<ICleaningProduct | IFoodProduct> = productData.map((data ) =>{
         if(market.length > 0){
             data.id = market[market.length-1].id + 1
         } else {
@@ -17,11 +17,11 @@ const createProduct = (request:Request, response:Response):Response =>{
         return data
     })
     
-    const totalPrice = productData.reduce((acc, currentValue) =>{
+    const totalPrice:number = productData.reduce((acc, currentValue) =>{
         return acc + currentValue.price
     },0)
 
-    const sendObj = {
+    const sendObj:IMarket = {
         total:totalPrice,
         marketProducts: newArray
     }
@@ -30,11 +30,11 @@ const createProduct = (request:Request, response:Response):Response =>{
 }
 
 const listProducts = (request:Request, response:Response):Response =>{
-    const totalPrice = market.reduce((acc, currentValue) =>{
+    const totalPrice:number = market.reduce((acc, currentValue) =>{
         return acc + currentValue.price
     },0)
 
-    const sendObj = {
+    const sendObj:IMarket = {
         total:totalPrice,
         marketProducts:market
     }
@@ -43,13 +43,13 @@ const listProducts = (request:Request, response:Response):Response =>{
 }
 
 const listProductsById = (request:Request, response:Response):Response =>{
-    const findIndex = response.locals.findIndex
+    const findIndex:number = response.locals.findIndex
 
     return response.status(200).json(market[findIndex])
 }
 
 const deleteProduct = (request:Request, response:Response):Response =>{
-    const findIndex = response.locals.findIndex
+    const findIndex:number = response.locals.findIndex
 
     market.splice(findIndex,1)
 
@@ -57,9 +57,9 @@ const deleteProduct = (request:Request, response:Response):Response =>{
 }
 
 const updateProduct = (request:Request, response:Response):Response =>{
-    const findIndex = response.locals.findIndex
+    const findIndex:number = response.locals.findIndex
 
-    const updatedProduct = {
+    const updatedProduct:ICleaningProduct | IFoodProduct = {
         ...market[findIndex],
         ...request.body
     }

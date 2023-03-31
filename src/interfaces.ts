@@ -18,6 +18,5 @@ interface IMarket {
     marketProducts:Array<ICleaningProduct | IFoodProduct>
 }
 
-type TProductRequest = Omit<IProduct, 'id' | 'expirationDate'>
 
-export { IProduct, ICleaningProduct, IFoodProduct, TProductRequest, IMarket }
+export { IProduct, ICleaningProduct, IFoodProduct, IMarket }

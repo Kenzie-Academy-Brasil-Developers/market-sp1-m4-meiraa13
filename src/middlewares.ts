@@ -3,9 +3,9 @@ import { market } from "./database";
 import { ICleaningProduct, IFoodProduct } from "./interfaces";
 
 const ensureProductExistsMiddleware = (request:Request, response:Response, next:NextFunction) =>{
-    const id = Number(request.params.id)
+    const id:number = Number(request.params.id)
 
-    const findIndex = market.findIndex((data) => data.id == id)
+    const findIndex:number = market.findIndex((data) => data.id == id)
 
     if(findIndex === -1){
         return response.status(404).json({
@@ -24,7 +24,7 @@ const verifyNameAlreadyExists = (request:Request, response:Response, next:NextFu
 
     productData.forEach((data)=>{
 
-        const nameAlreadyExists = market.some((product) => product.name == data.name)
+        const nameAlreadyExists:boolean = market.some((product) => product.name == data.name)
         if(nameAlreadyExists){
            return response.status(409).json({
                 error:'Product already registered' 
@@ -37,10 +37,10 @@ const verifyNameAlreadyExists = (request:Request, response:Response, next:NextFu
 }
 
 const verifyUpdatedNameAlreadyExists = (request:Request, response:Response, next:NextFunction) =>{
-    const id = Number(request.params.id)
+    const id:number = Number(request.params.id)
     const product:ICleaningProduct | IFoodProduct = request.body
 
-    const findIndex = market.findIndex((data) => data.id == id)
+    const findIndex:number = market.findIndex((data) => data.id == id)
 
     if(market[findIndex].name === product.name){
 
